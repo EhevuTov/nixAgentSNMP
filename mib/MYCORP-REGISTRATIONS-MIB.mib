@@ -1,0 +1,51 @@
+MYCORP-REGISTRATIONS-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	MODULE-IDENTITY, OBJECT-IDENTITY, enterprises
+	  FROM SNMPv2-SMI
+
+        TEXTUAL-CONVENTION
+          FROM SNMPv2-TC;
+
+myCorp       MODULE-IDENTITY
+LAST-UPDATED "201108240000Z"
+ORGANIZATION "My Corp LLC"
+CONTACT-INFO "aliyah.homeunix.org/~james"
+DESCRIPTION
+	"This is the description of the My Product MIB"
+
+REVISION "201108240000Z"
+DESCRIPTION "testing revision description"
+
+REVISION "201108230000Z"
+DESCRIPTION "Initial MIB creation"
+::= { enterprises 36872 }
+
+
+prototypes OBJECT-IDENTITY
+STATUS current
+DESCRIPTION
+	"All MyCorp expiremental products"
+::= { myCorp 1 }
+
+products OBJECT-IDENTITY
+STATUS current
+DESCRIPTION
+	"All MyCorp products"
+::= { myCorp 2 }
+
+
+prototypeMyProduct OBJECT-IDENTITY
+STATUS current
+DESCRIPTION
+	"MyProduct expiremential MIBs are organized under this node"
+::= { prototypes 1 }
+
+productMyProduct OBJECT-IDENTITY
+STATUS current
+DESCRIPTION
+	"MyProduct MIBs are organized under this node"
+::= { products 1 }
+
+
+END

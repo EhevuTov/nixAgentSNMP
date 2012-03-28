@@ -1,0 +1,346 @@
+MYCORP-PRODUCT-MYPRODUCT-MIB DEFINITIONS ::= BEGIN 
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-IDENTITY,
+	OBJECT-TYPE, Unsigned32 --Integer32
+		FROM SNMPv2-SMI
+
+    OBJECT-GROUP, MODULE-COMPLIANCE
+        FROM SNMPv2-CONF
+   
+    DisplayString, TimeStamp --TruthValue
+        FROM SNMPv2-TC
+
+    productMyProduct
+	FROM MYCORP-REGISTRATIONS-MIB;
+
+-- Tekno Admin3000 of production quality
+myCorpProductMIB  MODULE-IDENTITY
+LAST-UPDATED "201108230000Z"
+ORGANIZATION "My Corp LLC"
+CONTACT-INFO "aliyah.homeunix.org/~james"
+DESCRIPTION  "This is my corp product MIB" 
+
+REVISION     "201108230000Z"
+DESCRIPTION  "Initial Release"
+::= { productMyProduct 1 }
+
+-- List of Links
+linkTable OBJECT-TYPE
+   	SYNTAX SEQUENCE OF LinkEntry
+    MAX-ACCESS not-accessible
+   	STATUS	current
+  	DESCRIPTION "Branch Manager table"
+::= { myCorpProductMIB 1 }
+
+linkEntry OBJECT-TYPE
+    SYNTAX  LinkEntry
+    MAX-ACCESS not-accessible
+    STATUS  current
+    DESCRIPTION "an entry in linkTable"
+    INDEX       { linkIndex }
+    ::= { linkTable 1 }
+
+LinkEntry ::= SEQUENCE {
+    linkIndex   Unsigned32,     -- SNMP Index for the Link
+    linkID      Unsigned32,     -- Link ID number
+    slc         Unsigned32,     -- signalling code number
+    corSet      Unsigned32,     -- Correlation Set number
+    txPort      Unsigned32,     -- transmit side port number
+    txChan      Unsigned32,     -- transmit side channel number
+    txBran      Unsigned32,     -- Transmit Side Branch number
+    txBrMgr     Unsigned32,     -- Transmit Side Branch Manager number
+    corBrMgr    Unsigned32,     -- correlation Branch Manager number
+    corBrCon    Unsigned32,     -- correlation Branch Controller number
+    protocol    DisplayString,  -- protocol type
+    time        TimeStamp,      -- internal timestamp
+    txISUP      Unsigned32,     -- transmit side ISUP protocol occupancy counts
+    rxISUP      Unsigned32,     -- receive side ISUP protocol occupancy counts
+    txSCCP      Unsigned32,     -- tansmit side SCCP protocol occupancy counts
+    rxSCCP      Unsigned32,     -- receive side SCCP protocol occupancy counts
+    txSNMM      Unsigned32,     -- transmit side SNMM protocol occupancy counts
+    rxSNMM      Unsigned32,     -- receive side SNMM protocol occupancy counts
+    txFISU      Unsigned32,     -- tansmit side FISU protocol occupancy counts
+    rxFISU      Unsigned32,     -- receive side FISU protocol occupancy counts
+    txOther     Unsigned32,     -- tansmit side of other protocol occupancy counts
+    rxOther     Unsigned32,     -- receive side of other protocol occupancy counts
+    txErr       Unsigned32,     -- tansmit side framing error count
+    rxErr       Unsigned32,     -- receive side framing error count
+    txErrRate   Unsigned32,     -- tansmit side framing error rate
+    rxErrRate   Unsigned32,     -- receive side framing error rate
+    unitID      Unsigned32,     -- ID of the unit
+    linkSet     Unsigned32,     -- linkset Identifier
+    originCLLI  DisplayString,  -- originating CLLI code
+    destinCLLI  DisplayString,  -- destination CLLI code
+    originPtCd  Unsigned32,     -- originating Point Code number
+    destinPtCd  Unsigned32      -- destination Point Code number
+
+--        linkStatus  INTEGER32
+}
+
+linkIndex OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION "Link index for SNMP MIB table"
+::= { linkEntry 1 }
+
+linkID OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "Link number in regards to the Admin3000"
+::= { linkEntry 2 }
+
+slc OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 3 }
+
+corSet OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 4 }
+
+txPort OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 5 }
+
+txChan OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 6 }
+
+txBran OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 7 }
+
+txBrMgr OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 8 }
+
+corBrMgr OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 9 }
+
+corBrCon OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 10 }
+
+protocol OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 11 }
+
+time OBJECT-TYPE
+    SYNTAX      TimeStamp
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 12 }
+
+txISUP OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 13 }
+
+rxISUP OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 14 }
+
+txSCCP OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 15 }
+
+rxSCCP OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 16 }
+
+txSNMM OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 17 }
+
+rxSNMM OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 18 }
+
+txFISU OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 19 }
+
+rxFISU OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 20 }
+
+txOther OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 21 }
+
+rxOther OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 22 }
+
+txErr OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 23 }
+
+rxErr OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 24 }
+
+txErrRate OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 25 }
+
+rxErrRate OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 26 }
+
+unitID OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 27 }
+
+linkSet OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 28 }
+
+originCLLI OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 29 }
+
+destinCLLI OBJECT-TYPE
+    SYNTAX      DisplayString
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 30 }
+
+originPtCd OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 31 }
+
+destinPtCd OBJECT-TYPE
+    SYNTAX      Unsigned32
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION "signalling code number"
+::= { linkEntry 32 }
+
+
+-- Conformance Objects
+myCorpProductConformance OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION "Organizational node for Conformance Objects"
+    ::= { myCorpProductMIB 2}
+
+myProductConformanceGroups OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION "Organizational node for Conformance Objects"
+    ::= { myCorpProductConformance 1 }
+
+myProductStatusGroup OBJECT-GROUP
+    OBJECTS
+    {
+--        linkIndex,
+        linkID, slc, corSet, txPort, txChan, txBran, txBrMgr,
+        corBrMgr, corBrCon, txPort, protocol, time, txISUP,
+        rxISUP, txSCCP, rxSCCP, txSNMM, rxSNMM, txFISU,
+        rxFISU, txOther, rxOther, txErr, rxErr, txErrRate,
+        rxErrRate, unitID, linkSet, originCLLI, destinCLLI,
+        originPtCd, destinPtCd
+    }
+    STATUS  current
+    DESCRIPTION "myProductStatusGroup"
+    ::= { myProductConformanceGroups 1 }
+
+myCorpProductCompliance MODULE-COMPLIANCE
+    STATUS  current
+    DESCRIPTION "Specification of mandatory & non-mandatory
+                MIB objects"
+    MODULE
+    MANDATORY-GROUPS
+        {
+            myProductStatusGroup 
+        }
+--    GROUP  teknoAdminProdControlGroup 
+--    DESCRIPTION "A non-mandatory group"
+
+::= { myCorpProductConformance 2 }
+
+END
