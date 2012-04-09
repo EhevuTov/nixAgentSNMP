@@ -3,4 +3,4 @@ mib_compile :
 	+$(MAKE) -C mib
 
 clean :
-	+$(MAKE) -C mib
+	+$(MAKE) clean

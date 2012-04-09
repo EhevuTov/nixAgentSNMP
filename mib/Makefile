@@ -3,4 +3,4 @@ mib_compile :
 	env MIBS="+MYCORP-PRODUCT-MYPRODUCT-MIB" mib2c -c mib2c.mfd.conf linkTable
 
 clean:
-	rm -rf *.c *.h *.txt defaults
+	rm -rf *.c *.h *.o *.txt defaults linkTable_Makefile
