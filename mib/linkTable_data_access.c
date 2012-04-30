@@ -221,32 +221,13 @@ linkTable_container_load(netsnmp_container * container)
      */
     u_long          linkIndex;
 
-
-    /*
-     * this example code is based on a data source that is a
-     * text file to be read and parsed.
-     */
-    FILE           *filep;
-    char            line[MAX_LINE_SIZE];
-
     DEBUGMSGTL(("verbose:linkTable:linkTable_container_load", "called\n"));
 
     /*
      ***************************************************
-     ***             START EXAMPLE CODE              ***
+     ***             create a single row
      ***---------------------------------------------***/
-    /*
-     * open our data file.
-     */
-    filep = fopen("/etc/dummy.conf", "r");
-    if (NULL == filep) {
-        return MFD_RESOURCE_UNAVAILABLE;
-    }
 
-    /*
-     ***---------------------------------------------***
-     ***              END  EXAMPLE CODE              ***
-     ***************************************************/
     /*
      * TODO:351:M: |-> Load/update data in the linkTable container.
      * loop over your linkTable data, allocate a rowreq context,
@@ -255,37 +236,6 @@ linkTable_container_load(netsnmp_container * container)
      */
     while (1) {
         /*
-         ***************************************************
-         ***             START EXAMPLE CODE              ***
-         ***---------------------------------------------***/
-        /*
-         * get a line (skip blank lines)
-         */
-        do {
-            if (!fgets(line, sizeof(line), filep)) {
-                /*
-                 * we're done 
-                 */
-                fclose(filep);
-                filep = NULL;
-            }
-        } while (filep && (line[0] == '\n'));
-
-        /*
-         * check for end of data
-         */
-        if (NULL == filep)
-            break;
-
-        /*
-         * parse line into variables
-         */
-        /*
-         ***---------------------------------------------***
-         ***              END  EXAMPLE CODE              ***
-         ***************************************************/
-
-        /*
          * TODO:352:M: |   |-> set indexes in new linkTable rowreq context.
          */
         rowreq_ctx = linkTable_allocate_rowreq_ctx();
@@ -293,6 +243,12 @@ linkTable_container_load(netsnmp_container * container)
             snmp_log(LOG_ERR, "memory allocation failed\n");
             return MFD_RESOURCE_UNAVAILABLE;
         }
+
+	/*
+	 * create index 42
+	 */
+	linkIndex = 42;
+	
         if (MFD_SUCCESS != linkTable_indexes_set(rowreq_ctx, linkIndex)) {
             snmp_log(LOG_ERR, "error setting index while loading "
                      "linkTable data.\n");
@@ -304,27 +260,19 @@ linkTable_container_load(netsnmp_container * container)
          * TODO:352:r: |   |-> populate linkTable data context.
          * Populate data context here. (optionally, delay until row prep)
          */
-        /*
-         * non-TRANSIENT data: no need to copy. set pointer to data 
-         */
+	rowreq_ctx->data.linkID = 84;
+	rowreq_ctx->data.protocol_len = strlen("testing");
+	strcpy(rowreq_ctx->data.protocol, "testing");
 
         /*
          * insert into table container
          */
         CONTAINER_INSERT(container, rowreq_ctx);
         ++count;
+
+	break; /* we've only got one row */
     }
 
-    /*
-     ***************************************************
-     ***             START EXAMPLE CODE              ***
-     ***---------------------------------------------***/
-    if (NULL != filep)
-        fclose(filep);
-    /*
-     ***---------------------------------------------***
-     ***              END  EXAMPLE CODE              ***
-     ***************************************************/
 
     DEBUGMSGT(("verbose:linkTable:linkTable_container_load",
                "inserted %d records\n", count));
