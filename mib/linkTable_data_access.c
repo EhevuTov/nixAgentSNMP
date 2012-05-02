@@ -142,6 +142,7 @@ linkTable_container_init(netsnmp_container ** container_ptr_ptr,
      * by the MFD helper. To completely disable caching, set
      * cache->enabled to 0.
      */
+#define LINKTABLE_CACHE_TIMEOUT -1
     cache->timeout = LINKTABLE_CACHE_TIMEOUT;   /* seconds */
 }                               /* linkTable_container_init */
 
@@ -211,6 +212,7 @@ int
 linkTable_container_load(netsnmp_container * container)
 {
     linkTable_rowreq_ctx *rowreq_ctx;
+    linkTable_rowreq_ctx *rowreq_ctx2;
     size_t          count = 0;
 
     /*
@@ -239,6 +241,7 @@ linkTable_container_load(netsnmp_container * container)
          * TODO:352:M: |   |-> set indexes in new linkTable rowreq context.
          */
         rowreq_ctx = linkTable_allocate_rowreq_ctx();
+        rowreq_ctx2 = linkTable_allocate_rowreq_ctx();
         if (NULL == rowreq_ctx) {
             snmp_log(LOG_ERR, "memory allocation failed\n");
             return MFD_RESOURCE_UNAVAILABLE;
@@ -261,15 +264,72 @@ linkTable_container_load(netsnmp_container * container)
          * Populate data context here. (optionally, delay until row prep)
          */
 	rowreq_ctx->data.linkID = 84;
-	rowreq_ctx->data.protocol_len = strlen("testing");
-	strcpy(rowreq_ctx->data.protocol, "testing");
+        rowreq_ctx->data.slc = rand() % 10;
+        rowreq_ctx->data.corSet = rand() % 10;
+	rowreq_ctx->data.txPort = rand() % 10000;
+	rowreq_ctx->data.txChan = rand() % 100;
+	rowreq_ctx->data.txBran = rand() % 10;
+	rowreq_ctx->data.txBrMgr = rand() % 10;
+        rowreq_ctx->data.corBrMgr = rand() % 10;
+	rowreq_ctx->data.corBrCon = rand() % 10;
+	rowreq_ctx->data.protocol_len = strlen("ANSI");
+	strcpy(rowreq_ctx->data.protocol, "ANSI");
+        rowreq_ctx->data.time = rand();
+        rowreq_ctx->data.txISUP = rand();
+        rowreq_ctx->data.rxISUP = rand();
+        rowreq_ctx->data.txSCCP = rand();
+        rowreq_ctx->data.rxSCCP = rand();
+	rowreq_ctx->data.unitID = rand() % 100;
+	rowreq_ctx->data.linkSet= rand() % 100;
+        strcpy(rowreq_ctx->data.originCLLI, "CHCGIL45");
+        rowreq_ctx->data.originCLLI_len = strlen("CHCGIL45");
+        strcpy(rowreq_ctx->data.destinCLLI, "AKRNOH45");
+        rowreq_ctx->data.destinCLLI_len = strlen("AKRNO45");
+        rowreq_ctx->data.originPtCd = rand();
+        rowreq_ctx->data.destinPtCd = rand();
 
         /*
          * insert into table container
          */
         CONTAINER_INSERT(container, rowreq_ctx);
         ++count;
+        linkIndex++;
 
+        if (MFD_SUCCESS != linkTable_indexes_set(rowreq_ctx2, linkIndex)) {
+            snmp_log(LOG_ERR, "error setting index while loading "
+                     "linkTable data.\n");
+            linkTable_release_rowreq_ctx(rowreq_ctx2);
+            continue;
+        }
+
+	rowreq_ctx2->data.linkID = 85;
+        rowreq_ctx2->data.slc = rand() % 10;
+        rowreq_ctx2->data.corSet = rand() % 10;
+	rowreq_ctx2->data.txPort = rand() % 10000;
+	rowreq_ctx2->data.txChan = rand() % 100;
+	rowreq_ctx2->data.txBran = rand() % 10;
+	rowreq_ctx2->data.txBrMgr = rand() % 10;
+        rowreq_ctx2->data.corBrMgr = rand() % 10;
+	rowreq_ctx2->data.corBrCon = rand() % 10;
+	rowreq_ctx2->data.protocol_len = strlen("ANSI");
+	strcpy(rowreq_ctx2->data.protocol, "ANSI");
+        rowreq_ctx2->data.time = rand();
+        rowreq_ctx2->data.txISUP = rand();
+        rowreq_ctx2->data.rxISUP = rand();
+        rowreq_ctx2->data.txSCCP = rand();
+        rowreq_ctx2->data.rxSCCP = rand();
+	rowreq_ctx2->data.unitID = rand() % 100;
+	rowreq_ctx2->data.linkSet= rand() % 100;
+        strcpy(rowreq_ctx2->data.originCLLI, "ATLAGA90");
+        rowreq_ctx2->data.originCLLI_len = strlen("ATLAGA90");
+        strcpy(rowreq_ctx2->data.destinCLLI, "NSHVLTN90");
+        rowreq_ctx2->data.destinCLLI_len = strlen("NSHVLTN90");
+        rowreq_ctx2->data.originPtCd = rand();
+        rowreq_ctx2->data.destinPtCd = rand();
+
+        CONTAINER_INSERT(container, rowreq_ctx2);
+        ++count;
+        
 	break; /* we've only got one row */
     }
 
